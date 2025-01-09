@@ -40,6 +40,11 @@ const requestData = async function() {
     }
 }
 
+function getWeekDay(date) {
+    let day = new Date(date+'T00:00:00');
+    return day.toLocaleDateString('en-US', { weekday: 'long' });
+}
+
 const populateDashboard = function() {
     document.querySelector('#search-cont > div').innerText = weatherData.location;
     document.querySelector('#search-cont > div').innerText += '\n'+weatherData.currentConditions.temp+'°';
@@ -49,7 +54,8 @@ const populateDashboard = function() {
 
     // Loop through next 7 days of the forecast
     for (let i=1; i<8; i++){
-        elements.forecastBox.innerText += '\n'+weatherData.forecast[i].datetime;
+        let day = getWeekDay(weatherData.forecast[i].datetime);
+        elements.forecastBox.innerText += '\n'+day;
         elements.forecastBox.appendChild(createIcon(weatherData.forecast[i].icon));
         elements.forecastBox.innerText += '\n'+weatherData.forecast[i].temp;
         elements.forecastBox.innerText += '\n'+weatherData.forecast[i].conditions;
