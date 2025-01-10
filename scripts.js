@@ -2,7 +2,8 @@ const elements = (function() {
     const searchCont = document.getElementById('search-cont');
     const searchInput = document.getElementById('search-bar');
     const forecastBox = document.getElementById('forecast-box');
-    return {searchCont, searchInput, forecastBox}
+    const untisToggle = document.getElementById('units-toggle');
+    return {searchCont, searchInput, forecastBox, untisToggle}
 })();
 
 const createIcon = function (icon) {
@@ -70,5 +71,15 @@ elements.searchCont.addEventListener('keydown', (e) => {
         weatherQuery.location = elements.searchInput.value.toString();
         requestData();
     }
+})
+
+elements.untisToggle.addEventListener('click', (e) => {
+    if (e.target.checked === true) {
+        weatherQuery.units = 'us';
+    } else {
+        weatherQuery.units = 'metric';
+    }
+    requestData();
+    
 })
 

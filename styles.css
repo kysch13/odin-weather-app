@@ -36,3 +36,43 @@ header #search-bar {
 #search-cont {
     flex: 2;
 }
+
+.toggle-cont {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.units-toggle-label span.switch {
+    width: 30px;
+    height: 15px;
+    border-radius: 100px;
+    position: relative;
+    background-color: #124888;
+    border: 2px solid #B2CFF1;
+    display: block;
+    cursor: pointer;
+}
+
+.units-toggle-label span.switch::before {
+    content: '';
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    background: #ffffff;
+    position: absolute;
+    left: 0;
+    transition: 0.4s;
+}
+
+#units-toggle:checked ~ span.switch::before {
+    left: 15px;
+}
+
+#units-toggle {
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    position: absolute;
+}
