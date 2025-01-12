@@ -6,7 +6,10 @@ const elements = (function() {
     const sevenDayForecast = document.getElementById('sevenday-forecast-card-cont');
     const currentWeatherCard = document.getElementById('current-weather-card');
     const locationHeader = document.querySelector('.location-header h2');
-    return {searchCont, searchInput, forecastBox, untisToggle, sevenDayForecast, currentWeatherCard, locationHeader}
+    const currentCondMain = document.querySelector('.current-conditions-main');
+    const currentCondSecondary = document.querySelector('.current-conditions-secondary');
+
+    return {searchCont, searchInput, forecastBox, untisToggle, sevenDayForecast, currentWeatherCard, locationHeader, currentCondMain, currentCondSecondary}
 })();
 
 const createIcon = function (icon) {
@@ -49,33 +52,42 @@ function getWeekDay(date) {
     return day.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
-const populateDashboard = function() {
-    // Clear Dashboard
+function clearDashboard() {
     elements.sevenDayForecast.innerHTML = '';
     elements.locationHeader.innerHTML = '';
+    elements.currentCondMain.innerHTML = '';
+    elements.currentCondSecondary.innerHTML = '';
+}
+
+const populateDashboard = function() {
+    clearDashboard();
 
     elements.locationHeader.innerText = weatherData.location;
-    /*
-    document.querySelector('#search-cont > div').innerText = weatherData.location;
-    document.querySelector('#search-cont > div').innerText += '\n'+weatherData.currentConditions.temp+'°';
-    document.querySelector('#search-cont > div').innerText += '\n'+weatherData.description;
-    document.querySelector('#search-cont > div').appendChild(createIcon(weatherData.currentConditions.icon));
-    */
+    const currentCondCard = createCurrentCondCard();
+    elements.currentCondMain.appendChild(currentCondCard);
+
 
     // Loop through next 7 days of the forecast
     for (let i=1; i<8; i++){
         const card = createForecastCard(weatherData.forecast[i]);
         elements.sevenDayForecast.appendChild(card);
-        /*
-        let day = getWeekDay(weatherData.forecast[i].datetime);
-        elements.forecastBox.innerText += '\n'+day;
-        elements.forecastBox.appendChild(createIcon(weatherData.forecast[i].icon));
-        elements.forecastBox.innerText += '\n'+weatherData.forecast[i].temp;
-        elements.forecastBox.innerText += '\n'+weatherData.forecast[i].conditions;
-        elements.forecastBox.innerText += '\n'+"-----------------";
-        elements.forecastBox.appendChild(createIcon(weatherData.forecast[i].icon));
-        */
     }
+}
+
+function createCurrentCondCard() {
+    const card = createElem('div', 'current-card');
+    const icon = createIcon(weatherData.currentConditions.icon);
+    const temp = createElem('div', 'current-temp');
+    const conditions = createElem('div', 'current-conditions');
+
+    temp.innerText = Math.round(weatherData.currentConditions.temp)+'°';
+    conditions.innerText = weatherData.currentConditions.conditions;
+
+    card.appendChild(icon);
+    card.appendChild(temp);
+    card.appendChild(conditions);
+
+    return card;
 }
 
 function createForecastCard(data) {

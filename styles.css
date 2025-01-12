@@ -85,6 +85,32 @@ header #search-bar {
     text-align: center;
 }
 
+.current-conditions-cont{
+    display: grid;
+    color: #0350aa;
+    max-width: 1400px;
+    margin: 0 auto;
+    grid-template: 1fr / 1fr 2fr;
+    padding: 20px 0;
+}
+
+.current-conditions-main:empty {
+    display: none;
+}
+
+.current-conditions-main {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.current-temp {
+    font-weight: 700;
+    font-size: 26px;
+}
+
 #sevenday-forecast-card-cont {
     display: flex;
     justify-content: space-evenly;
