@@ -3,7 +3,9 @@ const elements = (function() {
     const searchInput = document.getElementById('search-bar');
     const forecastBox = document.getElementById('forecast-box');
     const untisToggle = document.getElementById('units-toggle');
-    return {searchCont, searchInput, forecastBox, untisToggle}
+    const sevenDayForecast = document.getElementById('sevenday-forecast-card-cont');
+    const currentWeatherCard = document.getElementById('current-weather-card');
+    return {searchCont, searchInput, forecastBox, untisToggle, sevenDayForecast, currentWeatherCard}
 })();
 
 const createIcon = function (icon) {
@@ -47,14 +49,21 @@ function getWeekDay(date) {
 }
 
 const populateDashboard = function() {
+    // Clear Dashboard
+    elements.sevenDayForecast.innerHTML = '';
+
+    /*
     document.querySelector('#search-cont > div').innerText = weatherData.location;
     document.querySelector('#search-cont > div').innerText += '\n'+weatherData.currentConditions.temp+'°';
     document.querySelector('#search-cont > div').innerText += '\n'+weatherData.description;
     document.querySelector('#search-cont > div').appendChild(createIcon(weatherData.currentConditions.icon));
-
+    */
 
     // Loop through next 7 days of the forecast
     for (let i=1; i<8; i++){
+        const card = createForecastCard(weatherData.forecast[i]);
+        elements.sevenDayForecast.appendChild(card);
+        /*
         let day = getWeekDay(weatherData.forecast[i].datetime);
         elements.forecastBox.innerText += '\n'+day;
         elements.forecastBox.appendChild(createIcon(weatherData.forecast[i].icon));
@@ -62,8 +71,42 @@ const populateDashboard = function() {
         elements.forecastBox.innerText += '\n'+weatherData.forecast[i].conditions;
         elements.forecastBox.innerText += '\n'+"-----------------";
         elements.forecastBox.appendChild(createIcon(weatherData.forecast[i].icon));
+        */
     }
 }
+
+function createForecastCard(data) {
+    const card = createElem('div', 'forecast-card');
+    const day = createElem('div', 'forecast-day');
+    const temp = createElem('div', 'forecast-temp');
+    const iconCont = createElem('div', 'forecast-icon');
+    const icon = createIcon(data.icon);
+    const conditions = createElem('div', 'forecast-conditions');
+
+    let weekday = getWeekDay(data.datetime);
+    day.innerText = weekday;
+    temp.innerText = Math.round(data.temp)+'°';
+    conditions.innerText = data.conditions;
+
+    iconCont.appendChild(icon);
+    card.appendChild(day);
+    card.appendChild(iconCont);
+    card.appendChild(temp);
+    card.appendChild(conditions);
+    
+    return card;
+}
+
+function createElem(type, ...classes) {
+    const elem = document.createElement(type);
+    if (classes) {
+        classes.forEach((cssClass) => {
+            elem.classList.add(cssClass);
+        });
+    }
+    return elem;
+}
+
 
 elements.searchCont.addEventListener('keydown', (e) => {
     if (e.key == 'Enter') {
