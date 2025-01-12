@@ -5,7 +5,8 @@ const elements = (function() {
     const untisToggle = document.getElementById('units-toggle');
     const sevenDayForecast = document.getElementById('sevenday-forecast-card-cont');
     const currentWeatherCard = document.getElementById('current-weather-card');
-    return {searchCont, searchInput, forecastBox, untisToggle, sevenDayForecast, currentWeatherCard}
+    const locationHeader = document.querySelector('.location-header h2');
+    return {searchCont, searchInput, forecastBox, untisToggle, sevenDayForecast, currentWeatherCard, locationHeader}
 })();
 
 const createIcon = function (icon) {
@@ -51,7 +52,9 @@ function getWeekDay(date) {
 const populateDashboard = function() {
     // Clear Dashboard
     elements.sevenDayForecast.innerHTML = '';
+    elements.locationHeader.innerHTML = '';
 
+    elements.locationHeader.innerText = weatherData.location;
     /*
     document.querySelector('#search-cont > div').innerText = weatherData.location;
     document.querySelector('#search-cont > div').innerText += '\n'+weatherData.currentConditions.temp+'°';
