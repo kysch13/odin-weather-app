@@ -64,7 +64,11 @@ const populateDashboard = function() {
 
     elements.locationHeader.innerText = weatherData.location;
     const currentCondCard = createCurrentCondCard();
+    const currentSecondayCard = createCurrentSecondayCard();
     elements.currentCondMain.appendChild(currentCondCard);
+    elements.currentCondSecondary.appendChild(currentSecondayCard);
+
+
 
 
     // Loop through next 7 days of the forecast
@@ -72,6 +76,26 @@ const populateDashboard = function() {
         const card = createForecastCard(weatherData.forecast[i]);
         elements.sevenDayForecast.appendChild(card);
     }
+}
+
+function createCurrentSecondayCard() {
+    const card = createElem('div', 'current-secondard-card');
+    const feelsLike = createElem('div', 'feels-like');
+    const humidity = createElem('div', 'humidity');
+    const chancePrecip = createElem('div', 'chance-precip');
+    const uvIndex = createElem('div', 'uv-index');
+
+    feelsLike.innerHTML = '<span>Feels Like: </span>'+Math.round(weatherData.currentConditions.feelslike)+'°';
+    humidity.innerHTML = '<span>Humidity: </span>'+Math.round(weatherData.currentConditions.humidity)+'%';
+    chancePrecip.innerHTML = '<span>Chance of Precipitation: </span>'+Math.round(weatherData.currentConditions.precipprob)+'%';
+    uvIndex.innerHTML = '<span>UV Index: </span>'+Math.round(weatherData.currentConditions.uvindex);
+    
+    card.appendChild(feelsLike);
+    card.appendChild(humidity);
+    card.appendChild(chancePrecip);
+    card.appendChild(uvIndex);
+
+    return card;
 }
 
 function createCurrentCondCard() {
