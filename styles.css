@@ -1,12 +1,44 @@
+:root {
+    --overcast-day: url('./img/bg/overcast-day.jpg');
+    --overcast-night: url('./img/bg/overcast-night.webp');
+    --partially-cloudy-day: url('./img/bg/partially-cloudy-day.jpg');
+    --partially-cloudy-night: url('./img/bg/partially-cloudy-night.jpg');
+    --clear-day: url('./img/bg/clear-day.jpg');
+    --clear-night: url('./img/bg/clear-night.jpg');
+    --snow-day: url('./img/bg/snow-day.jpg');
+    --snow-night: url('./img/bg/snow-night.jpg');
+    --rain-day: url('./img/bg/rain-day.jpeg');
+    --rain-night: url('./img/bg/rain-night.jpg');
+
+
+}
+
 body {
     margin: 0;
-    background: #eaeaea;
-    color: #fff;
+    color: #000000;
     font-family: 'Poppins', sans-serif;
+    background: linear-gradient(75deg, #95d5ff 10%, #36A3EE);
+    min-height: 100vh;
+    background-size: cover;
+    --bg: var(--clear-day);
+}
+
+body.day {
+    background: linear-gradient(75deg, #ffffff 10%, #fff0),aliceblue var(--bg);
+    background-size: cover;
+
+}
+
+
+body.night {
+    color: #ffffff;
+    background: linear-gradient(75deg, #000 10%, #fff0),rgb(14, 37, 57) var(--bg);
+    background-size: cover;
+
 }
 
 header {
-    background: linear-gradient(90deg, #014CA7, #36A3EE);
+    background: #014CA7;
     padding: 12px 20px;
     display: flex;
     align-items: center;
@@ -81,31 +113,70 @@ header #search-bar {
     position: absolute;
 }
 
+
+#dashboard {
+    display: grid;
+    grid-template: 1fr / 1fr 2fr;
+  }
+  
+.forecast-cards-cont {
+padding: 40px;
+}
+
+
 .location-header {
     text-align: center;
-    color: #2b2b2b;
+    color: #003b80;
+    text-align: left;
+}
+
+body.night .location-header {
+    color: #ffffff;
 }
 
 .current-conditions-cont{
-    display: grid;
+    display: flex;
+    flex-direction: column;
     color: #0350aa;
-    max-width: 1400px;
     margin: 0 auto;
-    grid-template: 1fr / 1fr 2fr;
-    padding: 20px 0;
+    padding: 30px 40px;
     gap: 20px;
+    width: 100%;
+}
+
+body.night .current-conditions-cont{
+    color: #ffffff;
+}
+
+.current-conditions-details {
+    display: flex;
+    gap: 40px;
 }
 
 .current-conditions-main:empty, .current-conditions-secondary:empty {
     display: none;
 }
 
-.current-conditions-main, .current-conditions-secondary {
-    background: #fff;
-    padding: 20px;
+.current-conditions-main {
     border-radius: 20px;
-    text-align: center;
+    text-align: left;
     font-size: 22px;
+}
+
+body.night .current-conditions-main img {
+    filter: invert(1) brightness(5) hue-rotate(190deg);
+}
+
+.current-conditions-secondary {
+    padding: 20px 0 20px 20px;
+    border-left: 1px solid #bcbcbc;
+    font-size: 16px;
+}
+
+.current-secondary-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .current-temp {
@@ -118,7 +189,7 @@ header #search-bar {
     justify-content: space-evenly;
     color: #0350aa;
     max-width: 1380px;
-    margin: 10px auto;
+    margin: 0;
     border-radius: 20px;
     gap: 10px;
 }
@@ -128,18 +199,29 @@ header #search-bar {
 }
 
 #sevenday-forecast-card-cont.forecast-card {
-    padding: 20px 10px;
     text-align: center;
     font-size: 14px;
 }
 
 #sevenday-forecast-card-cont > .forecast-card {
     text-align: center;
-    width: calc(100%/7);
+    width: calc(100%/5);
     border: 1px solid #cdcdcd;
     border-radius: 10px;
     filter: drop-shadow(1px 1px 1px #3337);
-    background: #fff;
+    background: #fff7;
+    backdrop-filter: blur(10px);
+}
+
+body.night #sevenday-forecast-card-cont > .forecast-card {
+    text-align: center;
+    width: calc(100%/5);
+    border: 1px solid #4391f0;
+    border-radius: 10px;
+    filter: drop-shadow(1px 1px 1px #3337);
+    background: #00000077;
+    backdrop-filter: blur(20px);
+    color: #fff;
 }
 
 .forecast-day {
@@ -149,6 +231,10 @@ header #search-bar {
     border-radius: 8px 8px 0 0;
     padding: 10px 0;
     outline: 1px solid #0350aa;
+}
+
+body.night .forecast-day {
+    outline: 1px solid #4391f0;
 }
 
 .forecast-temp {
@@ -174,6 +260,10 @@ header #search-bar {
 .forecast-icon img {
     max-width: 100%;
     max-height: 100%;
+}
+
+body.night .forecast-icon img {
+    filter: invert(1) brightness(5) hue-rotate(190deg);
 }
 
 

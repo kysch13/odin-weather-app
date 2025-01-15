@@ -1,4 +1,5 @@
 const elements = (function() {
+    const body = document.querySelector('body');
     const searchCont = document.getElementById('search-cont');
     const searchInput = document.getElementById('search-bar');
     const forecastBox = document.getElementById('forecast-box');
@@ -9,7 +10,7 @@ const elements = (function() {
     const currentCondMain = document.querySelector('.current-conditions-main');
     const currentCondSecondary = document.querySelector('.current-conditions-secondary');
 
-    return {searchCont, searchInput, forecastBox, untisToggle, sevenDayForecast, currentWeatherCard, locationHeader, currentCondMain, currentCondSecondary}
+    return {searchCont, searchInput, forecastBox, untisToggle, sevenDayForecast, currentWeatherCard, locationHeader, currentCondMain, currentCondSecondary, body}
 })();
 
 const createIcon = function (icon) {
@@ -36,6 +37,7 @@ const requestData = async function() {
             weatherData.description = responseData.description;
             weatherData.forecast = responseData.days;
             weatherData.location = responseData.resolvedAddress;
+            weatherData.background = responseData.currentConditions.conditions;
             console.log(responseData);
             populateDashboard();
         }
@@ -61,7 +63,7 @@ function clearDashboard() {
 
 const populateDashboard = function() {
     clearDashboard();
-
+    setBackground();
     elements.locationHeader.innerText = weatherData.location;
     const currentCondCard = createCurrentCondCard();
     const currentSecondayCard = createCurrentSecondayCard();
@@ -71,15 +73,50 @@ const populateDashboard = function() {
 
 
 
-    // Loop through next 7 days of the forecast
-    for (let i=1; i<8; i++){
+    // Loop through next 5 days of the forecast
+    for (let i=1; i<6; i++){
         const card = createForecastCard(weatherData.forecast[i]);
         elements.sevenDayForecast.appendChild(card);
     }
 }
 
+function setBackground() {
+    // Determine day or night
+    const time = new Date('2025-01-01T'+weatherData.currentConditions.datetime);
+    const sunrise = new Date('2025-01-01T'+weatherData.currentConditions.sunrise);
+    const sunset = new Date('2025-01-01T'+weatherData.currentConditions.sunset);
+    let timeOfDay = '';
+
+    if (time < sunrise || time > sunset) {
+        timeOfDay = 'night';
+        elements.body.classList.remove('day');
+        elements.body.classList.add('night');
+    } else {
+        timeOfDay = 'day';
+        elements.body.classList.remove('night');
+        elements.body.classList.add('day');
+    }
+
+    // Determine weather conditions
+    let bgType = weatherData.background;
+    const bgTypeArray = bgType.toLowerCase().split(',')[0].split(' ');
+    let bgClassName = '';
+
+    bgTypeArray.forEach((el) => {
+        bgClassName = bgClassName+el+'-';
+    })
+
+    console.log(bgTypeArray);
+    
+    bgClassName = `var(--${bgClassName+timeOfDay})`;
+    console.log(bgClassName);
+    elements.body.style.setProperty('--bg', bgClassName);
+    console.log(elements.body.style.getPropertyValue('--bg'));
+
+}
+
 function createCurrentSecondayCard() {
-    const card = createElem('div', 'current-secondard-card');
+    const card = createElem('div', 'current-secondary-card');
     const feelsLike = createElem('div', 'feels-like');
     const humidity = createElem('div', 'humidity');
     const chancePrecip = createElem('div', 'chance-precip');
