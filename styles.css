@@ -210,6 +210,7 @@ body.night .current-conditions-main img {
     border-radius: 10px;
     filter: drop-shadow(1px 1px 1px #3337);
     background: #fff7;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -220,6 +221,7 @@ body.night #sevenday-forecast-card-cont > .forecast-card {
     border-radius: 10px;
     filter: drop-shadow(1px 1px 1px #3337);
     background: #00000077;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     color: #fff;
 }
@@ -264,6 +266,70 @@ body.night .forecast-day {
 
 body.night .forecast-icon img {
     filter: invert(1) brightness(5) hue-rotate(190deg);
+}
+
+/* Mobile Styling */
+
+@media (max-width: 800px) {
+    header {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    #search-cont {
+        order: 2;
+        width: 100%;
+    }
+    header > div:first-of-type {
+        width: 50%;
+    }
+    .toggle-cont {
+        width: calc(50% - 20px);
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 600px) {
+    #dashboard {
+        grid-template: 1fr / 1fr;
+        padding: 10px 30px;
+    }
+    .current-conditions-details {
+        flex-direction: column;
+    }
+    #sevenday-forecast-card-cont.forecast-card {
+        flex-direction: column;
+    }
+    body.night #sevenday-forecast-card-cont > .forecast-card, body.day #sevenday-forecast-card-cont > .forecast-card {
+        width: 100%;
+        flex-direction: row;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .forecast-icon {
+        aspect-ratio: auto;
+        margin-left: 20px;
+    }
+    .current-conditions-cont {
+        width: 100%;
+        padding: 0;
+    }
+    body.night, body.day {
+        background-attachment: fixed;
+    }
+    .forecast-cards-cont {
+        padding: 0;
+        margin-top: 40px;
+    }
+    .forecast-day {
+        width: 100%;
+        text-align: left;
+        padding-left: 20px;
+    }
+    body.night .forecast-icon img, body.day .forecast-icon img {
+        max-width: 64px;
+    }
+
 }
 
 
