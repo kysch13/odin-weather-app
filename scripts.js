@@ -21,7 +21,7 @@ const createIcon = function (icon) {
 }
 
 const weatherQuery = {
-    location: 'London, Ontario',
+    location: 'Toronto, Ontario',
     units: 'metric',
 }
 
@@ -38,7 +38,6 @@ const requestData = async function() {
             weatherData.forecast = responseData.days;
             weatherData.location = responseData.resolvedAddress;
             weatherData.background = responseData.currentConditions.conditions;
-            console.log(responseData);
             populateDashboard();
         }
         if (response.status === 400) {
@@ -106,12 +105,9 @@ function setBackground() {
         bgClassName = bgClassName+el+'-';
     })
 
-    console.log(bgTypeArray);
     
     bgClassName = `var(--${bgClassName+timeOfDay})`;
-    console.log(bgClassName);
     elements.body.style.setProperty('--bg', bgClassName);
-    console.log(elements.body.style.getPropertyValue('--bg'));
 
 }
 
@@ -184,6 +180,8 @@ function createElem(type, ...classes) {
 }
 
 
+
+
 elements.searchCont.addEventListener('keydown', (e) => {
     if (e.key == 'Enter') {
         e.preventDefault();
@@ -202,3 +200,41 @@ elements.untisToggle.addEventListener('click', (e) => {
     
 })
 
+/* GeoLocation */
+async function getGeoLocation() {
+    if ("geolocation" in navigator) {
+        const location = await navigator.geolocation.getCurrentPosition((position) => {
+             lat = position.coords.latitude;
+             lng = position.coords.longitude;
+        });
+    } else {
+        return null;
+    }
+      
+}
+
+async function reverseGeocode(lat, lng) {
+    const apiKey = 'EYUEBegUWE8HeKPoc2QXeeK7AkWTv5mi';
+    try {
+        const response = await fetch(`https://api.geocodify.com/v2/reverse?api_key=${apiKey}&lat=${lat}&lng=${lng}`, {mode: 'cors'});
+        if (response.status === 200) {
+            const responseData = await response.json();
+            const locality = responseData.response.features[0].properties.locality;
+            const region = responseData.response.features[0].properties.region;
+            const country = responseData.response.features[0].properties.country;
+            const locationName = `${locality}, ${region}, ${country}`;
+            weatherQuery.location = locationName;   
+        }
+    } catch(error) {
+        console.error(error);
+    }
+
+}
+
+/*
+const searchGeo = (async function() {
+    getGeoLocation();
+
+})();
+*/
+ getGeoLocation();
