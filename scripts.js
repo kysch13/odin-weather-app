@@ -69,6 +69,9 @@ function clearDashboard() {
     elements.currentCondSecondary.innerHTML = '';
     elements.loader.classList.remove('active');
     elements.errorMsg.classList.remove('active');
+    elements.body.classList.remove('day');
+    elements.body.classList.remove('night');
+
 }
 
 function displayLoader() {
